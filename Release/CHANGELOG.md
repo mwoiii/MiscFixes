@@ -1,5 +1,11 @@
-## 1.5.10
+## 1.6.2
 - Fix some boss speech drivers from being unable to select their full range of dialogue
+
+## 1.6.1
+- Removed temp DLC4 item drop fix
+
+## 1.6.0
+- Temp DLC4 item drop fix
 
 ## 1.5.9
 - Oops
