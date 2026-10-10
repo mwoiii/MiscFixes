@@ -25,7 +25,7 @@ namespace MiscFixes
         public const string PluginGUID = $"_{PluginAuthor}.{PluginName}";
         public const string PluginAuthor = "score";
         public const string PluginName = "MiscFixes";
-        public const string PluginVersion = "1.5.9";
+        public const string PluginVersion = "1.5.10";
 
         internal static bool RooInstalled => Chainloader.PluginInfos.ContainsKey("com.rune580.riskofoptions");
 
@@ -46,6 +46,7 @@ namespace MiscFixes
             TryHarmonyPatch<FixNullRefs>();
             TryHarmonyPatch<FixParticleScale>();
             TryHarmonyPatch<FixTempOverlay>();
+            TryHarmonyPatch<FixVisual>();
         }
 
         private void TryHarmonyPatch<T>()

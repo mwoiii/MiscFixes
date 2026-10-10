@@ -6,6 +6,7 @@ using MiscFixes.Modules;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
+using RoR2.CharacterSpeech;
 using RoR2.Items;
 using RoR2.Projectile;
 using RoR2.UI;
@@ -600,6 +601,32 @@ namespace MiscFixes.ErrorPolice
         {
             if (!__instance.originalMaterial && __instance.componentReference && __instance.ValidateOverlay())
                 __instance.componentReference.CopyDataFromPrefabToInstance();
+        }
+    }
+
+    [HarmonyPatch]
+    internal class FixVisual 
+    {
+        /// <summary>
+        /// Brother/FalseSon/ProvSpeechDriver can never choose the last response in a response pool if it has length greater than 1.
+        /// blowing up the subtraction of 1 that causes this
+        /// </summary>
+        [HarmonyPatch(typeof(BrotherSpeechDriver), nameof(BrotherSpeechDriver.SendReponseFromPool))]
+        [HarmonyPatch(typeof(FalseSonBossSpeechDriver), nameof(FalseSonBossSpeechDriver.SendReponseFromPool))]
+        [HarmonyPatch(typeof(ProvSpeechDriver), nameof(ProvSpeechDriver.SendReponseFromPool))]
+        [HarmonyILManipulator]
+        public static void FixSpeechDriverPools(ILContext il) {
+            var c = new ILCursor(il);
+
+            if (c.TryGotoNext(
+                    x => x.MatchLdcI4(1),
+                    x => x.MatchSub()
+                )) 
+            {
+                c.Remove();
+                c.Remove();
+            } 
+            else Log.PatchFail(il); 
         }
     }
 }

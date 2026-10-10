@@ -1,3 +1,6 @@
+## 1.5.10
+- Fix some boss speech drivers from being unable to select their full range of dialogue
+
 ## 1.5.9
 - Oops
 
